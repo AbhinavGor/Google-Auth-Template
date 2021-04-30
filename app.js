@@ -1,6 +1,5 @@
 require('dotenv').config();
 const express = require('express');
-const expressLayouts = require('express-ejs-layouts');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const session = require('express-session');
@@ -11,6 +10,8 @@ const User = require('./models/User')
 const PORT = process.env.PORT;
 const app = express();
 
+//Routers import
+const authRoutes = require('./controllers/authController');
 
 //Passport config
 require('./middleware/passport')(passport)
@@ -47,6 +48,9 @@ app.use(passport.session())
 app.get('/', (req, res) => {
     res.send(`This is a basic template to implement google oauth using NodeJS and PassportJS.`);
 });
+
+//Routes
+app.use('/auth', authRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}!`);
